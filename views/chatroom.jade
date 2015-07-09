@@ -3,23 +3,27 @@ html
   head
     style
       include ../style.css
+      include ../node_modules/bootstrap/dist/css/bootstrap.min.css
+      include ../node_modules/bootstrap/dist/js/bootstrap.min.js
       
   body
     div(id='container')
-      div(id='chat')
-        ul
-          each val in messageArray
-            li= val
-      div(id='panel')
-        div(id='timer')
-          #clock
-            p
-          #clock-control
-            button#start| start           
-        div(id='users')
+      #container-upper
+        div(id='chat')
           ul
-            each val in userArray
-              li= val.name
+            each val in messageArray
+              li= val
+        div(id='panel')
+          div(id='timer')
+            #clock
+              p
+            #clock-control
+              button#start| start the Pomodoro!          
+          div(id='users')
+            h4 User list
+            ul
+              each val in userArray
+                li= val.name
 
 
       div(id='input')
@@ -27,6 +31,7 @@ html
           label| Chat! 
           input(id="chat-message",type="text")
           button#send-button
+            Post your awesome message
   
     script(src="https://cdn.socket.io/socket.io-1.2.0.js")
     script(src="http://code.jquery.com/jquery-1.11.1.js")
@@ -35,12 +40,12 @@ html
       socket.on('connect', function (){
         $('form').submit(function(){
           socket.emit('chat message', $('#chat-message').val());
-          $('#chat ul').append('<li>' + $('#chat-message').val() + '</li>');
+          //$('#chat ul').append('<li>' + $('#chat-message').val() + '</li>');
           $('#chat-message').val('');
           return false;
         });
-        socket.on('server response', function (message){
-          $('#chat ul').append('<li>' + message + '</li>');
+        socket.on('server response', function (message){ 
+          $('#chat ul').append($('<li>' + message + '</li>'));
         });
         $('#start').click(function(){
           console.log('ciao');

@@ -1,12 +1,17 @@
 doctype html
 html
   head
+    style
+      include ../style.css
+      include ../node_modules/bootstrap/dist/css/bootstrap.min.css
+      include ../node_modules/bootstrap/dist/js/bootstrap.min.js
   body
-    form(action="/" method="post")
-      label| What is your name? 
-      input(name="name",type="text")
-      br
-      label| What are you working on? 
-      input(name="working",type="text")
-      br
-      input(type="submit")
+    #container
+      form(action="/" method="post" class="container-splash")
+        label| What is your name? 
+        input(name="name",type="text")
+        br
+        label| What are you working on? 
+        input(name="working",type="text")
+        br
+        input(type="submit")

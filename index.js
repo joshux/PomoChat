@@ -35,6 +35,7 @@ io.on('connection', function(socket){
 		messages.push(msg);
 		console.log(messages);
 		socket.broadcast.emit('server response', msg);
+		socket.emit('server response', msg);
 	});
 	socket.on('clock start', function(){
 		socket.broadcast.emit('server response: start your clocks');

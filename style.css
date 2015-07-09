@@ -1,0 +1,16 @@
+.container-splash{  position: relative;
+  margin-left: 40%;
+  /*margin:auto;*/
+  top: 200px;
+}
+
+form input{
+	  margin-left: 14px;
+}
+
+#panel{
+	  position: absolute;
+  right: 10px;
+  width: 25%;
+
+}
