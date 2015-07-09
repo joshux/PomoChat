@@ -1,0 +1,65 @@
+doctype html
+html
+  head
+    style
+      include ../style.css
+      
+  body
+    div(id='container')
+      div(id='chat')
+        ul
+          each val in messageArray
+            li= val
+      div(id='panel')
+        div(id='timer')
+          #clock
+            p
+          #clock-control
+            button#start| start           
+        div(id='users')
+          ul
+            each val in userArray
+              li= val.name
+
+
+      div(id='input')
+        form(id="chat-send" action="")
+          label| Chat! 
+          input(id="chat-message",type="text")
+          button#send-button
+  
+    script(src="https://cdn.socket.io/socket.io-1.2.0.js")
+    script(src="http://code.jquery.com/jquery-1.11.1.js")
+    script.
+      var socket=io();
+      socket.on('connect', function (){
+        $('form').submit(function(){
+          socket.emit('chat message', $('#chat-message').val());
+          $('#chat ul').append('<li>' + $('#chat-message').val() + '</li>');
+          $('#chat-message').val('');
+          return false;
+        });
+        socket.on('server response', function (message){
+          $('#chat ul').append('<li>' + message + '</li>');
+        });
+        $('#start').click(function(){
+          console.log('ciao');
+          socket.emit('clock start')
+        });
+        socket.on('response', function (type){
+          $('#clock p').text(type + type == 'work' ? '25:00':'05:00');
+          //var startTime = new Date().getTime();
+          var time = 25*60; 
+          var intervalId=setInterval(function(){
+            if(time>0){
+              time--;
+              $('#clock p').text( Math.floor(time/60) +':'+ time % 60);
+            }
+            else{
+              clearInterval(intervalId);
+            }
+
+          }, 1000);
+        });
+      });
+      
